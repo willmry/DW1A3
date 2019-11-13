@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        td,
+        tr {
+            border: 2px black solid;
+        }
+
+        thead {
+            background: gray;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <thead>
+            <tr class="controle">
+                <td>Peça</td>
+                <td>Máquina</td>
+                <td>Data da última revisão</td>
+            </tr>
+        </thead>
+        <tbody id="tabela-controle">
+            <tr class="controle">
+                <td class="info-peca">XPTO 1</td>
+                <td class="info-maquina">24250</td>
+                <td class="info-ultimaRevisao">25/11/2018</td>
+            </tr>
+            <tr class="controle">
+                <td class="info-peca">XPTO 2</td>
+                <td class="info-maquina">24250</td>
+                <td class="info-ultimaRevisao">25/09/2019</td>
+            </tr>
+            <tr class="controle">
+                <td class="info-peca">XPTO 1</td>
+                <td class="info-maquina">24250</td>
+                <td class="info-ultimaRevisao">25/04/2019</td>
+            </tr>
+            <tr class="controle">
+                <td class="info-peca">XPTO 1</td>
+                <td class="info-maquina">24250</td>
+                <td class="info-ultimaRevisao">25/04/2019</td>
+            </tr>
+            <tr class="controle">
+                <td class="info-peca">XPTO 1</td>
+                <td class="info-maquina">24250</td>
+                <td class="info-ultimaRevisao">10/08/2019</td>
+            </tr>
+            <tr class="controle">
+                <td class="info-peca">XPTO 1</td>
+                <td class="info-maquina">24250</td>
+                <td class="info-ultimaRevisao">25/04/2018</td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        function mudarParaAmarelo(td){
+            td.style.backgroundColor = "#FFFA00";
+        }
+
+        function mudarParaVerde(td) {
+            td.style.backgroundColor = "#31FF4E";
+        }
+
+        function mudarParaVermelho(td) {
+            td.style.backgroundColor = "#FF0000";
+        }
+
+        function mudarCor(td){
+            var dataPagina = td.textContent;
+            var dataParts = dataPagina.split("/");
+            var data = new Date(dataParts[2], dataParts[1]-1, dataParts[0]);
+
+            var hoje = new Date();
+            var quatidadeDias = calculoDeDias(hoje, data);
+
+            if(quatidadeDias < 150){
+                mudarParaVerde(td);
+            }
+            else if(quatidadeDias < 300){
+                mudarParaAmarelo(td);
+            } else{
+                mudarParaVermelho(td);
+            }
+        }
+
+        function calculoDeDias(hoje, ultimaRevisao){
+            console.log("[calculoDeDias]", hoje, ultimaRevisao);
+            var segundos = (hoje - ultimaRevisao) / 1000;
+            console.log("[calculoDeDias]", "segundos", segundos);
+            var horas = (segundos / 3600);
+            var dias = (horas / 24);
+            var quatidadeDias = Math.floor(dias);
+            return quatidadeDias;
+        }
+
+        function verifica(proxRevs){
+            proxRevs.forEach(td => {
+                mudarCor(td);
+            });
+
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            var proxRevs = document.querySelectorAll(".info-ultimaRevisao");
+            verifica(proxRevs);
+        });
+        
+    </script>
+</body>
+</html>
